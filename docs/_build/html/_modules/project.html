@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>project &mdash; CS50P Movie Charades  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            CS50P Movie Charades
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">cs50p-movie-charades</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CS50P Movie Charades</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">project</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for project</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">print_welcome</span><span class="p">,</span> <span class="n">get_random_movie_title</span><span class="p">,</span> <span class="n">download_ai_img</span><span class="p">,</span> <span class="n">open_img</span><span class="p">,</span> <span class="n">mask_string</span><span class="p">,</span> <span class="n">guess_string</span>
+<span class="kn">from</span> <span class="nn">MovieCharadesGUI</span> <span class="kn">import</span> <span class="n">MovieCharadesGUI</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CS50P Movie Charades GUI or CLI</span>
+
+<span class="sd">An interactive game where the user is presented with an AI-generated image from the DALL·E 2 API.</span>
+<span class="sd">The image is based on a randomly selected movie title from the top 1000 rated movies on MoviesMiniDatabase retrieved through RapidAPI.</span>
+<span class="sd">The user&#39;s task is to guess the movie title associated with the image.</span>
+
+<span class="sd">Author: Nedko Dimitrov</span>
+<span class="sd">Version: 2.0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../project.html#project.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The main function parses command-line arguments to decide which mode to run the game in.</span>
+<span class="sd">    If the &quot;cli&quot; argument is passed, the game runs in CLI mode, otherwise, it runs in GUI mode.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Play Movie Charades game.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--cli&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run the game in CLI mode&quot;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">cli</span><span class="p">:</span>
+        <span class="n">play_game_cli</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Initialize the game in GUI mode with 3 lives and 3 attempts</span>
+        <span class="n">movie_charades_game</span> <span class="o">=</span> <span class="n">MovieCharadesGUI</span><span class="p">(</span><span class="n">lives</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">movie_charades_game</span><span class="o">.</span><span class="n">play_game</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="play_game_cli"><a class="viewcode-back" href="../project.html#project.play_game_cli">[docs]</a><span class="k">def</span> <span class="nf">play_game_cli</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Play the Movie Charades game in the Command Line Interface (CLI) mode.</span>
+
+<span class="sd">    The user is presented with an image generated by the DALL·E 2 API based on a randomly selected movie title.</span>
+<span class="sd">    The user is prompted to guess the movie title associated with the image. The game continues until the user runs out of lives.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">lives</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">attempts</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">IMAGE_FILE_NAME</span> <span class="o">=</span> <span class="s2">&quot;image.png&quot;</span>
+
+    <span class="c1"># Print a welcome message for the user</span>
+    <span class="n">print_welcome</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="n">lives</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="se">\t</span><span class="s2">attempts:</span><span class="si">{</span><span class="n">attempts</span><span class="si">}</span><span class="se">\t</span><span class="s2">lives: </span><span class="si">{</span><span class="n">lives</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please wait for the AI-generated image to load before guessing the movie title used as the prompt...&quot;</span><span class="p">)</span>
+        <span class="c1"># Get a random movie title and an AI-generated image based on that title</span>
+        <span class="n">movie_title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">get_random_movie_title</span><span class="p">()</span>
+        <span class="n">download_ai_img</span><span class="p">(</span><span class="n">movie_title</span><span class="p">,</span> <span class="n">IMAGE_FILE_NAME</span><span class="p">)</span>
+        <span class="c1"># Open the image for the user to view</span>
+        <span class="n">open_img</span><span class="p">(</span><span class="n">IMAGE_FILE_NAME</span><span class="p">)</span>
+        <span class="c1"># Mask the movie title with underscores to show the user how many letters are present</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mask_string</span><span class="p">(</span><span class="n">movie_title</span><span class="p">))</span>
+
+        <span class="c1"># Prompt the user to guess the movie title and update the score and lives accordingly</span>
+        <span class="k">if</span> <span class="n">guess_string</span><span class="p">(</span><span class="n">movie_title</span><span class="p">,</span> <span class="n">attempts</span><span class="p">):</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Correct!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lives</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The movie title was: &#39;</span><span class="si">{</span><span class="n">movie_title</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Game Over!&quot;</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Nedko Dimitrov.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

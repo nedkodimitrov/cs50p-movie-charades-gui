@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>helpers module &mdash; CS50P Movie Charades  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MovieCharadesGUI module" href="MovieCharadesGUI.html" />
+    <link rel="prev" title="test_helpers module" href="test_helpers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CS50P Movie Charades
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">cs50p-movie-charades</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project.html">project module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_helpers.html">test_helpers module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">helpers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#helpers.download_ai_img"><code class="docutils literal notranslate"><span class="pre">download_ai_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpers.get_random_movie_title"><code class="docutils literal notranslate"><span class="pre">get_random_movie_title()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpers.guess_string"><code class="docutils literal notranslate"><span class="pre">guess_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpers.mask_string"><code class="docutils literal notranslate"><span class="pre">mask_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpers.open_img"><code class="docutils literal notranslate"><span class="pre">open_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helpers.print_welcome"><code class="docutils literal notranslate"><span class="pre">print_welcome()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MovieCharadesGUI.html">MovieCharadesGUI module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CS50P Movie Charades</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">cs50p-movie-charades</a></li>
+      <li class="breadcrumb-item active">helpers module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/helpers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-helpers">
+<span id="helpers-module"></span><h1>helpers module<a class="headerlink" href="#module-helpers" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="helpers.download_ai_img">
+<span class="sig-prename descclassname"><span class="pre">helpers.</span></span><span class="sig-name descname"><span class="pre">download_ai_img</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'image.png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/helpers.html#download_ai_img"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#helpers.download_ai_img" title="Permalink to this definition"></a></dt>
+<dd><p>Download an AI-generated image from the DALL·E 2 API, utilizing a provided prompt using openai.Image.create().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_prompt</strong> (<em>str</em>) – The prompt that will be used by DALL-E 2 to generate the image.</p></li>
+<li><p><strong>image_file_name</strong> (<em>str</em>) – The name of the image file that will be saved (Default: “image.png”).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True ifsuccessfully downloaded AI-generated image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>SystemExit</strong> – If the request is unsuccessful.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpers.get_random_movie_title">
+<span class="sig-prename descclassname"><span class="pre">helpers.</span></span><span class="sig-name descname"><span class="pre">get_random_movie_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/helpers.html#get_random_movie_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#helpers.get_random_movie_title" title="Permalink to this definition"></a></dt>
+<dd><p>Get a random movie title from the top 1000 rated movies on MoviesMiniDatabase using RapidAPI using request.get().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A string containing a movie title.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>SystemExit</strong> – If the request is unsuccessful.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpers.guess_string">
+<span class="sig-prename descclassname"><span class="pre">helpers.</span></span><span class="sig-name descname"><span class="pre">guess_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">answer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attempts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/helpers.html#guess_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#helpers.guess_string" title="Permalink to this definition"></a></dt>
+<dd><p>Prompt the user to guess a string in a case-insensitive manner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>answer</strong> (<em>str</em>) – The correct answer that the user has to guess.</p></li>
+<li><p><strong>attempts</strong> (<em>int</em>) – Number of attempts the user is given to guess the string. (Default: 3)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the user successfully guessed, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the function is called with no arguments.</p></li>
+<li><p><strong>AttributeError</strong> – If the “answer” argument is not a string.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpers.mask_string">
+<span class="sig-prename descclassname"><span class="pre">helpers.</span></span><span class="sig-name descname"><span class="pre">mask_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/helpers.html#mask_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#helpers.mask_string" title="Permalink to this definition"></a></dt>
+<dd><p>Mask a string by replacing every alphanumeric character except the first one with an underscore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>string</strong> (<em>str</em>) – The input string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The masked string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the input is not a string.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpers.open_img">
+<span class="sig-prename descclassname"><span class="pre">helpers.</span></span><span class="sig-name descname"><span class="pre">open_img</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'image.png'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers.html#open_img"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#helpers.open_img" title="Permalink to this definition"></a></dt>
+<dd><p>Open and show an image using Pillow.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="helpers.print_welcome">
+<span class="sig-prename descclassname"><span class="pre">helpers.</span></span><span class="sig-name descname"><span class="pre">print_welcome</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers.html#print_welcome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#helpers.print_welcome" title="Permalink to this definition"></a></dt>
+<dd><p>Using pyfiglet prints a welcome message with ASCII art title and information about the AI and database used.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="test_helpers.html" class="btn btn-neutral float-left" title="test_helpers module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MovieCharadesGUI.html" class="btn btn-neutral float-right" title="MovieCharadesGUI module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Nedko Dimitrov.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

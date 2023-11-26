@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MovieCharadesGUI &mdash; CS50P Movie Charades  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            CS50P Movie Charades
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">cs50p-movie-charades</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CS50P Movie Charades</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MovieCharadesGUI</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MovieCharadesGUI</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">get_random_movie_title</span><span class="p">,</span> <span class="n">download_ai_img</span><span class="p">,</span> <span class="n">mask_string</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageTk</span>
+
+
+<div class="viewcode-block" id="MovieCharadesGUI"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI">[docs]</a><span class="k">class</span> <span class="nc">MovieCharadesGUI</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CS50P Movie Charades GUI</span>
+
+<span class="sd">    An interactive game where the user is presented with an AI-generated image from the DALL·E 2 API.</span>
+<span class="sd">    The image is based on a randomly selected movie title from the top 1000 rated movies on MoviesMiniDatabase retrieved through RapidAPI.</span>
+<span class="sd">    The user&#39;s task is to guess the movie title associated with the image.</span>
+
+<span class="sd">    Author: Nedko Dimitrov</span>
+<span class="sd">    Version: 2.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lives</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the MovieCharadesGUI object.</span>
+
+<span class="sd">        :param lives: Number of lives the player has, defaults to 3.</span>
+<span class="sd">        :type lives: int, optional</span>
+
+<span class="sd">        :param attempts: Number of attempts allowed for each movie title, defaults to 3.</span>
+<span class="sd">        :type attempts: int, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;CS50P Movie Charades&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lives</span> <span class="o">=</span> <span class="n">lives</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attempts</span> <span class="o">=</span> <span class="n">attempts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_movie_title</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Create the game&#39;s graphical elements</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_labels</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_input_frame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_image_label</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_footer_label</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MovieCharadesGUI.create_labels"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.create_labels">[docs]</a>    <span class="k">def</span> <span class="nf">create_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and display the score, lives, header, and masked movie title labels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Score: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s2">&quot;nw&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lives_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Lives: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lives</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lives_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s2">&quot;ne&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">remaining_attempts_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Remaining attempts: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">attempts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remaining_attempts_label</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">header_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Arial&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> <span class="n">wraplength</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">masked_movie_title_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Arial&quot;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">wraplength</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">masked_movie_title_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.create_input_frame"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.create_input_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_input_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and display the input entry and guess button in a frame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_entry</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Arial&quot;</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_entry</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">guess_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Guess&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Arial&quot;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_guess_button_click</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">DISABLED</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">guess_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.create_image_label"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.create_image_label">[docs]</a>    <span class="k">def</span> <span class="nf">create_image_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and display the label for the AI-generated image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.create_footer_label"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.create_footer_label">[docs]</a>    <span class="k">def</span> <span class="nf">create_footer_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create and display the footer label with attribution to the APIs used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">footer_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Powered by OpenAI DALL-E 2 API and MoviesMiniDatabase RapidAPI&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">footer_label</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.on_guess_button_click"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.on_guess_button_click">[docs]</a>    <span class="k">def</span> <span class="nf">on_guess_button_click</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handler for the Guess button click event.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Disable the Guess button to prevent multiple rapid clicks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">guess_button</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">DISABLED</span>
+
+        <span class="c1"># Check if the user&#39;s input matches the current movie title</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_movie_title</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="c1"># If the guess is correct, update the score label and load the next level</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_score_label</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load_level</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If the guess is incorrect, decrement the remaining attempts</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_remaining_attempts_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remaining_attempts</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">remaining_attempts</span><span class="p">:</span>
+                <span class="c1"># If there are remaining attempts, re-enable the Guess button for the next try</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">guess_button</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">NORMAL</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># If there are no remaining attempts, update the lives label and show the correct movie title</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_lives_label</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">masked_movie_title_label</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;The movie title was: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_movie_title</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lives</span><span class="p">:</span>
+                    <span class="c1"># If there are lives left, load the next level</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">load_level</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># If there are no lives left, display &quot;Game Over&quot; in the header label</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">header_label</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Game Over&quot;</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.update_remaining_attempts_label"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.update_remaining_attempts_label">[docs]</a>    <span class="k">def</span> <span class="nf">update_remaining_attempts_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remaining_attempts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the label displaying the remaining attempts.</span>
+
+<span class="sd">        :param remaining_attempts: The remaining attempts for the current movie title.</span>
+<span class="sd">        :type remaining_attempts: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remaining_attempts</span> <span class="o">=</span> <span class="n">remaining_attempts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remaining_attempts_label</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Remaining attempts: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">remaining_attempts</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.update_score_label"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.update_score_label">[docs]</a>    <span class="k">def</span> <span class="nf">update_score_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the score label when the player guesses correctly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_label</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Score: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.update_lives_label"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.update_lives_label">[docs]</a>    <span class="k">def</span> <span class="nf">update_lives_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the lives label when the player loses a life.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lives</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lives_label</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Lives: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lives</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.load_level"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.load_level">[docs]</a>    <span class="k">def</span> <span class="nf">load_level</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load a new level with a new movie title and AI-generated image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">IMAGE_FILE_NAME</span> <span class="o">=</span> <span class="s2">&quot;image.png&quot;</span>
+
+        <span class="c1"># Show &quot;Loading image...&quot; while fetching and generating the image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header_label</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Loading image...&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="c1"># Get a new random movie title and its corresponding AI-generated image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_movie_title</span> <span class="o">=</span> <span class="n">get_random_movie_title</span><span class="p">()</span>
+        <span class="n">download_ai_img</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_movie_title</span><span class="p">,</span> <span class="n">IMAGE_FILE_NAME</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">photo</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">IMAGE_FILE_NAME</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_label</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">photo</span>
+
+        <span class="c1"># Update the header and masked movie title labels with the new movie title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header_label</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Guess the movie title:&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">masked_movie_title_label</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_movie_title</span><span class="p">)</span>
+
+        <span class="c1"># Reset the remaining attempts label to the default value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_remaining_attempts_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attempts</span><span class="p">)</span>
+        <span class="c1"># Re-enable the Guess button for the player to make their guess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">guess_button</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">NORMAL</span>
+        <span class="c1"># Clear the input entry field for the player to enter a new guess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_entry</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MovieCharadesGUI.play_game"><a class="viewcode-back" href="../MovieCharadesGUI.html#MovieCharadesGUI.MovieCharadesGUI.play_game">[docs]</a>    <span class="k">def</span> <span class="nf">play_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start the game by loading the first level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_level</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Nedko Dimitrov.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

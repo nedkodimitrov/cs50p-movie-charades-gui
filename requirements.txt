@@ -1,0 +1,6 @@
+argparse
+openai==0.27.8
+Pillow
+pyfiglet
+requests
+tk

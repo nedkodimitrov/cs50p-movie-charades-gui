@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>helpers &mdash; CS50P Movie Charades  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            CS50P Movie Charades
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">cs50p-movie-charades</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CS50P Movie Charades</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">helpers</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for helpers</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">base64</span> <span class="kn">import</span> <span class="n">b64decode</span>
+<span class="kn">import</span> <span class="nn">openai</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getenv</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">pyfiglet</span> <span class="kn">import</span> <span class="n">Figlet</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">sub</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">exit</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+
+<div class="viewcode-block" id="print_welcome"><a class="viewcode-back" href="../helpers.html#helpers.print_welcome">[docs]</a><span class="k">def</span> <span class="nf">print_welcome</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Using pyfiglet prints a welcome message with ASCII art title and information about the AI and database used.&quot;&quot;&quot;</span>
+    <span class="n">figlet</span> <span class="o">=</span> <span class="n">Figlet</span><span class="p">()</span>
+    <span class="n">figlet</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">figlet</span><span class="o">.</span><span class="n">renderText</span><span class="p">(</span><span class="s2">&quot;CS50P Movie Charades&quot;</span><span class="p">))</span>
+
+    <span class="n">figlet</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="o">=</span><span class="s2">&quot;straight&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">figlet</span><span class="o">.</span><span class="n">renderText</span><span class="p">(</span><span class="s2">&quot;Powered by OpenAI DALL-E 2 API and MoviesMiniDatabase RapidAPI&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_random_movie_title"><a class="viewcode-back" href="../helpers.html#helpers.get_random_movie_title">[docs]</a><span class="k">def</span> <span class="nf">get_random_movie_title</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a random movie title from the top 1000 rated movies on MoviesMiniDatabase using RapidAPI using request.get().</span>
+
+<span class="sd">    :return: A string containing a movie title.</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    :raises SystemExit: If the request is unsuccessful.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://moviesminidatabase.p.rapidapi.com/movie/order/byRating/&quot;</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;X-RapidAPI-Key&quot;</span><span class="p">:</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;X_RAPIDAPI_API_KEY&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;X-RapidAPI-Host&quot;</span><span class="p">:</span> <span class="s2">&quot;moviesminidatabase.p.rapidapi.com&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">querystring</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;page_size&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1"># loop in case there is a connection issue. Try to reconnect unless user terminates the program</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querystring</span><span class="p">)</span>
+            <span class="c1"># raise HTTPError (subclass of RequestError) if the request was unsuccessful</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MoviesMiniDatabase request error. There was a connection issue. Trying to reconnect in 60 seconds. Press Ctrl + C to exit instead.&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+                <span class="n">exit</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Terminated by user.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">401</span><span class="p">,</span> <span class="mi">403</span><span class="p">]:</span>
+                <span class="n">exit</span><span class="p">(</span><span class="s2">&quot;MoviesMiniDatabase request error. X_RAPIDAPI_API_KEY not set or incorrect.&quot;</span><span class="p">)</span>
+            <span class="n">exit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;results&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;title&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="download_ai_img"><a class="viewcode-back" href="../helpers.html#helpers.download_ai_img">[docs]</a><span class="k">def</span> <span class="nf">download_ai_img</span><span class="p">(</span><span class="n">img_prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">image_file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;image.png&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download an AI-generated image from the DALL·E 2 API, utilizing a provided prompt using openai.Image.create().</span>
+
+<span class="sd">    :param img_prompt: The prompt that will be used by DALL-E 2 to generate the image.</span>
+<span class="sd">    :type img_prompt: str</span>
+
+<span class="sd">    :param image_file_name: The name of the image file that will be saved (Default: &quot;image.png&quot;).</span>
+<span class="sd">    :type image_file_name: str</span>
+
+<span class="sd">    :return: True ifsuccessfully downloaded AI-generated image</span>
+<span class="sd">    :rtype: bool</span>
+
+<span class="sd">    :raises SystemExit: If the request is unsuccessful.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">openai</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">)</span>
+
+    <span class="c1"># loop in case there is a connection issue. Try to reconnect unless user terminates the program</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">img_prompt</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;512x512&quot;</span><span class="p">,</span> <span class="n">response_format</span><span class="o">=</span><span class="s2">&quot;b64_json&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">openai</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">APIConnectionError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OPENAI DALL-E 2 request error. There was a connection issue. Trying to reconnect in 60 seconds. Press Ctrl + C to exit instead.&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+                <span class="n">exit</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Terminated by user.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">openai</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">AuthenticationError</span><span class="p">:</span>
+            <span class="n">exit</span><span class="p">(</span><span class="s2">&quot;OPENAI DALL-E 2 request error. OPENAI_API_KEY not set or incorrect.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">openai</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">OpenAIError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">exit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">image_file_name</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+            <span class="n">img_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">b64decode</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;b64_json&quot;</span><span class="p">]))</span>
+            <span class="n">img_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="open_img"><a class="viewcode-back" href="../helpers.html#helpers.open_img">[docs]</a><span class="k">def</span> <span class="nf">open_img</span><span class="p">(</span><span class="n">image_file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;image.png&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open and show an image using Pillow.&quot;&quot;&quot;</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_file_name</span><span class="p">)</span>
+    <span class="n">img</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="mask_string"><a class="viewcode-back" href="../helpers.html#helpers.mask_string">[docs]</a><span class="k">def</span> <span class="nf">mask_string</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mask a string by replacing every alphanumeric character except the first one with an underscore.</span>
+
+<span class="sd">    :param string: The input string.</span>
+<span class="sd">    :type string: str</span>
+
+<span class="sd">    :return: The masked string.</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    :raises TypeError: If the input is not a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\w&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">string</span></div>
+
+
+<div class="viewcode-block" id="guess_string"><a class="viewcode-back" href="../helpers.html#helpers.guess_string">[docs]</a><span class="k">def</span> <span class="nf">guess_string</span><span class="p">(</span><span class="n">answer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attempts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prompt the user to guess a string in a case-insensitive manner.</span>
+
+<span class="sd">    :param answer: The correct answer that the user has to guess.</span>
+<span class="sd">    :type answer: str</span>
+
+<span class="sd">    :param attempts: Number of attempts the user is given to guess the string. (Default: 3)</span>
+<span class="sd">    :type attempts: int</span>
+
+<span class="sd">    :return: True if the user successfully guessed, False otherwise.</span>
+<span class="sd">    :rtype: bool</span>
+
+<span class="sd">    :raises TypeError: If the function is called with no arguments.</span>
+<span class="sd">    :raises AttributeError: If the &quot;answer&quot; argument is not a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">answer</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">attempts</span><span class="p">):</span>
+        <span class="n">guess</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Guess: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">guess</span> <span class="o">==</span> <span class="n">answer</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Wrong answer!&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Nedko Dimitrov.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
